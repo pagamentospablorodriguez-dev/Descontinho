@@ -160,15 +160,7 @@ export default function App() {
       />
 
       <main>
-        {/* Stats */}
-        <section className="mx-auto -mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
-          <StatsBar
-            totalProducts={stats.totalProducts}
-            avgDiscount={stats.avgDiscount}
-            totalSavings={stats.totalSavings}
-            storeCount={stats.storeCount}
-          />
-        </section>
+    
 
         {/* How it works */}
         <HowItWorks />
