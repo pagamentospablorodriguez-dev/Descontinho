@@ -22,7 +22,7 @@ export function Hero({ totalProducts, totalSavings, avgDiscount, topDeal }: Hero
       <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-24">
         <div className="max-w-2xl">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#f6c900]/35 bg-white/10 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-[#ffe36a] backdrop-blur-sm">
-            <Sparkles className="h-4 w-4" />
+            
             Pechincha boa é compartilhada
           </div>
 
