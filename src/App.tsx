@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { PackageOpen } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import { FALLBACK_PRODUCTS } from '@/fallbackData';
+import { fetchDeals } from '@/lib/deals';
 import type { Product, Store } from '@/types';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
@@ -27,33 +26,16 @@ export default function App() {
   const [storeFilter, setStoreFilter] = useState<Store | 'all'>('all');
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
-  // Fetch products from Supabase; fall back to local data on error.
+  // Fetch products da API (Netlify Function) — cai pra fallback se falhar.
   useEffect(() => {
     let cancelled = false;
     (async () => {
       setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('products')
-          .select('*')
-          .order('is_featured', { ascending: false });
-
-        if (cancelled) return;
-
-        if (error || !data || data.length === 0) {
-          setProducts(FALLBACK_PRODUCTS);
-          setUsingFallback(true);
-        } else {
-          setProducts(data as Product[]);
-          setUsingFallback(false);
-        }
-      } catch {
-        if (cancelled) return;
-        setProducts(FALLBACK_PRODUCTS);
-        setUsingFallback(true);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
+      const { products: data, source } = await fetchDeals();
+      if (cancelled) return;
+      setProducts(data);
+      setUsingFallback(source === 'fallback');
+      setLoading(false);
     })();
     return () => { cancelled = true; };
   }, []);
@@ -160,7 +142,15 @@ export default function App() {
       />
 
       <main>
-    
+        {/* Stats bar */}
+        <section className="mx-auto -mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
+          <StatsBar
+            totalProducts={stats.totalProducts}
+            avgDiscount={stats.avgDiscount}
+            totalSavings={stats.totalSavings}
+            storeCount={stats.storeCount}
+          />
+        </section>
 
         {/* How it works */}
         <HowItWorks />
