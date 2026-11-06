@@ -1,21 +1,12 @@
 export type Store = 'Amazon' | 'Shopee' | 'Mercado Livre' | 'Magalu' | 'AliExpress';
 
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  image_url: string;
-  price: number;
-  original_price: number;
-  discount_percent: number;
-  store: Store;
-  category: string;
-  affiliate_url: string;
-  rating: number;
-  reviews_count: number;
-  is_featured: boolean;
-  created_at: string;
-}
+export const STORES: Store[] = [
+  'Amazon',
+  'Shopee',
+  'Mercado Livre',
+  'Magalu',
+  'AliExpress',
+];
 
 export const CATEGORIES = [
   'Todos',
@@ -25,20 +16,40 @@ export const CATEGORIES = [
   'Beleza',
   'Games',
   'Acessórios',
+  'Geral',
 ] as const;
 
-export const STORES: Store[] = [
-  'Amazon',
-  'Shopee',
-  'Mercado Livre',
-  'Magalu',
-  'AliExpress',
-];
+export interface StoreColor {
+  badge: string;
+}
 
-export const STORE_COLORS: Record<Store, { bg: string; text: string; badge: string }> = {
-  Amazon: { bg: 'bg-[#232F3E]', text: 'text-[#FF9900]', badge: 'bg-[#232F3E] text-[#FF9900]' },
-  Shopee: { bg: 'bg-[#EE4D2D]', text: 'text-[#EE4D2D]', badge: 'bg-[#EE4D2D] text-white' },
-  'Mercado Livre': { bg: 'bg-[#FFE600]', text: 'text-[#FFE600]', badge: 'bg-[#FFE600] text-[#2D3277]' },
-  Magalu: { bg: 'bg-[#0086FF]', text: 'text-[#0086FF]', badge: 'bg-[#0086FF] text-white' },
-  AliExpress: { bg: 'bg-[#FF4747]', text: 'text-[#FF4747]', badge: 'bg-[#FF4747] text-white' },
+export const STORE_COLORS: Record<string, StoreColor> = {
+  Amazon: { badge: 'bg-[#232f3e] text-[#ff9900]' },
+  Shopee: { badge: 'bg-[#ee4d2d] text-white' },
+  'Mercado Livre': { badge: 'bg-[#fff159] text-[#333]' },
+  Magalu: { badge: 'bg-[#0086ff] text-white' },
+  AliExpress: { badge: 'bg-[#e62e04] text-white' },
 };
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  image_url: string;
+  price: number;
+  original_price: number;
+  discount_percent: number;
+  store: string;
+  category: string;
+  affiliate_url: string;
+  rating: number;
+  reviews_count: number;
+  is_featured: boolean;
+  created_at: string;
+  // Campos de oferta dinâmica (opcionais — compatibilidade com dados antigos)
+  source?: string;
+  external_id?: string | null;
+  permalink?: string | null;
+  last_checked_at?: string | null;
+  is_active?: boolean;
+}
